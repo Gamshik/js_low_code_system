@@ -2,18 +2,23 @@
 
 int main(int argc, char *argv[])
 {
-    QCoreApplication a(argc, argv);
+    QApplication a(argc, argv);
 
-    // Set up code that uses the Qt event loop here.
-    // Call a.quit() or a.exit() to quit the application.
-    // A not very useful example would be including
-    // #include <QTimer>
-    // near the top of the file and calling
-    // QTimer::singleShot(5000, &a, &QCoreApplication::quit);
-    // which quits the application after 5 seconds.
+    QSize wndSize{600, 500};
 
-    // If you do not need a running Qt event loop, remove the call
-    // to a.exec() or use the Non-Qt Plain C++ Application template.
+    mainWnd = new MainWindow(wndSize, "Js Low Code");
+
+    createProjBtn = new QPushButton("Ctreate proj", mainWnd);
+
+    QSize createProjBtnSize{100, 50};
+
+    int createProjBtnXPos = (wndSize.width() / 2) - (createProjBtnSize.width() / 2);
+    int createProjBtnYPos = (wndSize.height() / 2) - (createProjBtnSize.height() / 2);
+
+    createProjBtn->setGeometry(createProjBtnXPos, createProjBtnYPos, createProjBtnSize.width(), createProjBtnSize.height());
+
+
+    mainWnd->show();
 
     return a.exec();
 }
