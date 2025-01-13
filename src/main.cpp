@@ -1,6 +1,8 @@
 #include <QApplication>
-#include <QPushButton>
 #include <QObject>
+#include <QGridLayout>
+#include <QTextEdit>
+#include <QPushButton>
 
 #include <iostream>
 #include <fstream>
@@ -12,9 +14,16 @@ using namespace std;
 namespace fs = std::filesystem;
 
 MainWindow *mainWnd;
-QPushButton *createProjBtn;
 
-void createEmptyNestJsProj();
+QGridLayout *mainGridLayout;
+QPushButton *createProjBtn;
+QTextEdit *projNameTxtEditor;
+QTextEdit *projRootDirTxtEditor;
+
+void onCreateProjBtnClick();
+void onProjRootDirTxtEditorChange();
+void onProjNameTxtEditorChange();
+
 string readFile(string path);
 void createFile(string path, string content);
 void createParentDirectoriesIfNotExist(string path);
@@ -32,23 +41,34 @@ int main(int argc, char *argv[])
 
     mainWnd = new MainWindow(wndSize, "Js Low Code");
 
-    createProjBtn = new QPushButton("Ctreate proj", mainWnd);
+    mainGridLayout = new QGridLayout(mainWnd);
 
-    QSize createProjBtnSize{100, 50};
+    createProjBtn = new QPushButton("Ctreate proj");
 
-    int createProjBtnXPos = (wndSize.width() / 2) - (createProjBtnSize.width() / 2);
-    int createProjBtnYPos = (wndSize.height() / 2) - (createProjBtnSize.height() / 2);
+    projRootDirTxtEditor = new QTextEdit();
 
-    createProjBtn->setGeometry(createProjBtnXPos, createProjBtnYPos, createProjBtnSize.width(), createProjBtnSize.height());
+    projRootDirTxtEditor->setMaximumHeight(30);
+    projRootDirTxtEditor->setMaximumWidth(200);
 
-    QObject::connect(createProjBtn, QPushButton::clicked, createEmptyNestJsProj);
+    projNameTxtEditor = new QTextEdit();
+
+    projNameTxtEditor->setMaximumHeight(30);
+    projNameTxtEditor->setMaximumWidth(200);
+
+    QObject::connect(createProjBtn, QPushButton::clicked, onCreateProjBtnClick);
+    QObject::connect(projNameTxtEditor, QTextEdit::textChanged, onProjNameTxtEditorChange);
+    QObject::connect(projRootDirTxtEditor, QTextEdit::textChanged, onProjRootDirTxtEditorChange);
+
+    mainGridLayout->addWidget(projNameTxtEditor);
+    mainGridLayout->addWidget(projRootDirTxtEditor);
+    mainGridLayout->addWidget(createProjBtn);
 
     mainWnd->show();
 
     return a.exec();
 }
 
-void createEmptyNestJsProj()
+void onCreateProjBtnClick()
 {
     string serviceFileContent = readFile(serviceInstanceFilePath);
     string controllerFileContent = readFile(serviceInstanceFilePath);
@@ -62,7 +82,16 @@ void createEmptyNestJsProj()
     createFile(serviceFilePath, serviceFileContent);
     createFile(controllerFilePath, controllerFileContent);
     createFile(moduleFilePath, moduleFileContent);
+void onProjRootDirTxtEditorChange()
+{
+    projRootDirName = projRootDirTxtEditor->toPlainText();
 }
+
+void onProjNameTxtEditorChange()
+{
+    projName = projNameTxtEditor->toPlainText();
+}
+
 
 string readFile(string path)
 {
