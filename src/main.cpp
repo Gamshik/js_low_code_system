@@ -27,6 +27,7 @@ void onProjNameTxtEditorChange();
 string readFile(string path);
 void createFile(string path, string content);
 void createParentDirectoriesIfNotExist(string path);
+string setVariableInText(string varName, string varPattern, string varVal, string txt);
 
 const string fileInstancesFolderPath = "../../../file_instances/";
 const string serviceInstanceFilePath = fileInstancesFolderPath + "app.service.ts.txt";
@@ -134,5 +135,17 @@ void createParentDirectoriesIfNotExist(string path)
     {
         fs::create_directories(filePath.parent_path());
     }
+}
 
+string setVariableInText(string varName, string varPattern, string varVal, string txt)
+{
+    QString pattern = QString::fromStdString(varPattern);
+
+    pattern.replace(QString::fromStdString("%v"), QString::fromStdString(varName));
+
+    QString qTxt = QString::fromStdString(txt);
+
+    qTxt.replace(pattern, QString::fromStdString(varVal));
+
+    return qTxt.toStdString();
 }
