@@ -29,10 +29,22 @@ void createFile(string path, string content);
 void createParentDirectoriesIfNotExist(string path);
 string setVariableInText(string varName, string varPattern, string varVal, string txt);
 
-const string fileInstancesFolderPath = "../../../file_instances/";
-const string serviceInstanceFilePath = fileInstancesFolderPath + "app.service.ts.txt";
-const string controllerInstanceFilePath = fileInstancesFolderPath + "app.controller.ts.txt";
-const string moduleInstanceFilePath = fileInstancesFolderPath + "app.module.ts.txt";
+const string fileInstancesDirPath = "../../../file_instances/";
+
+const string packageJsonInstanceFilePath = fileInstancesDirPath + "package.json.txt";
+const string tsConfInstanceFilePath = fileInstancesDirPath + "tsconfig.json.txt";
+const string tsConfBuildInstanceFilePath = fileInstancesDirPath + "tsconfig.build.json.txt";
+const string nestCliConfInstanceFilePath = fileInstancesDirPath + "nest-cli.json.txt";
+
+const string serviceInstanceFilePath = fileInstancesDirPath + "app.service.ts.txt";
+const string controllerInstanceFilePath = fileInstancesDirPath + "app.controller.ts.txt";
+const string moduleInstanceFilePath = fileInstancesDirPath + "app.module.ts.txt";
+
+const string mainInstanceFilePath = fileInstancesDirPath + "main.ts.txt";
+
+
+QString projRootDirName;
+QString projName;
 
 int main(int argc, char *argv[])
 {
@@ -71,18 +83,49 @@ int main(int argc, char *argv[])
 
 void onCreateProjBtnClick()
 {
+    if (projRootDirName.length() < 1)
+        return;
+
+    string packageJsonConfFileContent = readFile(packageJsonInstanceFilePath);
+    string tsConfFileContent = readFile(tsConfInstanceFilePath);
+    string tsConfBuildFileContent = readFile(tsConfBuildInstanceFilePath);
+    string nestCliConfFileContent = readFile(nestCliConfInstanceFilePath);
+
     string serviceFileContent = readFile(serviceInstanceFilePath);
     string controllerFileContent = readFile(serviceInstanceFilePath);
     string moduleFileContent = readFile(serviceInstanceFilePath);
 
-    string projFolderPath = "../../../nest/src/";
-    string serviceFilePath = projFolderPath + "app.service.ts";
-    string controllerFilePath = projFolderPath + "app.controller.ts";
-    string moduleFilePath = projFolderPath + "app.module.ts";
+    string mainFileContent = readFile(mainInstanceFilePath);
+
+    packageJsonConfFileContent = setVariableInText("projName", "{%v}", projName.toStdString(), packageJsonConfFileContent);
+    packageJsonConfFileContent = setVariableInText("rootDir", "{%v}", projRootDirName.toStdString(), packageJsonConfFileContent);
+    nestCliConfFileContent = setVariableInText("rootDir", "{%v}", projRootDirName.toStdString(), nestCliConfFileContent);
+
+    string projFolderPath = "../../../" + projName.toStdString() + "/";
+    string projRootDirPath = projFolderPath + projRootDirName.toStdString() + "/";
+
+    string serviceFilePath = projRootDirPath + "app.service.ts";
+    string controllerFilePath = projRootDirPath + "app.controller.ts";
+    string moduleFilePath = projRootDirPath + "app.module.ts";
+    string mainFilePath = projRootDirPath + "main.ts";
+
+    string packageJsonConfFilePath = projFolderPath + "package.json";
+    string tsConfFilePath = projFolderPath + "tsconfig.json";
+    string tsConfBuildFilePath = projFolderPath + "tsconfig.build.json";
+    string nestCliConfFilePath = projFolderPath + "nest-cli.json";
 
     createFile(serviceFilePath, serviceFileContent);
     createFile(controllerFilePath, controllerFileContent);
     createFile(moduleFilePath, moduleFileContent);
+
+    createFile(mainFilePath, mainFileContent);
+
+    createFile(packageJsonConfFilePath, packageJsonConfFileContent);
+    createFile(tsConfFilePath, tsConfFileContent);
+    createFile(tsConfBuildFilePath, tsConfBuildFileContent);
+    createFile(nestCliConfFilePath, nestCliConfFileContent);
+}
+
 void onProjRootDirTxtEditorChange()
 {
     projRootDirName = projRootDirTxtEditor->toPlainText();
