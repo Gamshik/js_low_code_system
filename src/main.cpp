@@ -17,19 +17,13 @@
 // ----- PROJECT CLASSES -----
 
 #include <mainWindow.h>
-#include <packageJsonFile.h>
-#include <tsConfigFile.h>
-#include <tsConfigBuildFile.h>
-#include <nestCliConfigFile.h>
-#include <serviceFile.h>
-#include <controllerFile.h>
-#include <moduleFile.h>
-#include <mainFile.h>
+#include <nestJsProjectCreator.h>
 
 using namespace std;
 namespace fs = std::filesystem;
 
 MainWindow *mainWnd;
+NestJsProjectCreator *nestJsProjectCreator;
 
 // ----- LAYOUTS -----
 
@@ -98,7 +92,6 @@ int main(int argc, char *argv[])
     projNameTxtEditor = new QTextEdit();
 
 
-
     // -------------------------- ACTION BINDING --------------------------
 
     QObject::connect(createProjBtn, QPushButton::clicked, onCreateProjBtnClick);
@@ -160,35 +153,12 @@ void onCreateProjBtnClick()
 
     try
     {
-        PackageJsonFile *jsonFile = new PackageJsonFile(projName.toStdString(), projRootDirName.toStdString());
-        TsConfigFile *tsConfigFile = new TsConfigFile();
-        TsConfigBuildFile *tsConfigBuildFile = new TsConfigBuildFile();
-        NestCliConfigFile *nestCliConfigFile = new NestCliConfigFile(projName.toStdString());
-        ServiceFile *serviceFile = new ServiceFile();
-        ControllerFile *controllerFile = new ControllerFile();
-        ModuleFile *moduleFile = new ModuleFile();
-        MainFile *mainFile = new MainFile();
+        nestJsProjectCreator = new NestJsProjectCreator("D:/LOW_CODE/", projName.toStdString(), projRootDirName.toStdString());
 
-        string projFolderPath = "../../../" + projName.toStdString() + "/";
-        string projRootDirPath = projFolderPath + projRootDirName.toStdString() + "/";
+        nestJsProjectCreator->addModule("Gleb");
+        nestJsProjectCreator->addModule("Test");
 
-        string packageJsonConfFilePath = projFolderPath + "package.json";
-        string tsConfigFilePath = projFolderPath + "tsconfig.json";
-        string tsConfigBuildFilePath = projFolderPath + "tsconfig.build.json";
-        string nestCliConfigFilePath = projFolderPath + "nest-cli.json";
-        string serviceFilePath = projRootDirPath + "app.service.ts";
-        string controllerFilePath = projRootDirPath + "app.controller.ts";
-        string moduleFilePath = projRootDirPath + "app.module.ts";
-        string mainFilePath = projRootDirPath + "main.ts";
-
-        jsonFile->createFile(packageJsonConfFilePath);
-        tsConfigFile->createFile(tsConfigFilePath);
-        tsConfigBuildFile->createFile(tsConfigBuildFilePath);
-        nestCliConfigFile->createFile(nestCliConfigFilePath);
-        serviceFile->createFile(serviceFilePath);
-        controllerFile->createFile(controllerFilePath);
-        moduleFile->createFile(moduleFilePath);
-        mainFile->createFile(mainFilePath);
+        nestJsProjectCreator->createProject();
 
         showMessageBox(strToQString("Project " + projName.toStdString() + " is created"));
     } catch(exception &exception)
