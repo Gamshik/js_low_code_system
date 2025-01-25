@@ -8,31 +8,36 @@
 class MainWindow : public QWidget
 {
     Q_OBJECT
-public:
-    MainWindow(QWidget *parent = nullptr): QWidget(parent) {}
-    MainWindow(QString title, QWidget *parent = nullptr): QWidget(parent) {
-        this->setWindowTitle(title);
-    }
-    MainWindow(int width, int height, QWidget *parent = nullptr): QWidget(parent) {
-        this->setWndSize(width, height);
-    }
-    MainWindow(int width, int height, QString title, QWidget *parent = nullptr): QWidget(parent) {
-        this->setWndSize(width, height);
-
-        this->setWindowTitle(title);
-    }
-    MainWindow(QSize size, QString title, QWidget *parent = nullptr): QWidget(parent) {
-        this->setWndSize(size.width(), size.height());
-
-        this->setWindowTitle(title);
-    }
-    virtual ~MainWindow() {}
 
 private:
-    void setWndSize(int width, int height) {
-        this->setMinimumSize(width, height);
-        this->setMaximumSize(width, height);
+    void _setWndSize(int width, int height) {
+        setMinimumSize(width, height);
+        setMaximumSize(width, height);
     }
+
+public:
+    MainWindow(QWidget *parent = nullptr): QWidget(parent) {}
+    MainWindow(QString title, QWidget *parent = nullptr): QWidget(parent)
+    {
+        setWindowTitle(title);
+    }
+    MainWindow(int width, int height, QWidget *parent = nullptr): QWidget(parent)
+    {
+        _setWndSize(width, height);
+    }
+    MainWindow(int width, int height, QString title, QWidget *parent = nullptr): QWidget(parent)
+    {
+        _setWndSize(width, height);
+
+        setWindowTitle(title);
+    }
+    MainWindow(QSize size, QString title, QWidget *parent = nullptr): QWidget(parent)
+    {
+        _setWndSize(size.width(), size.height());
+
+        setWindowTitle(title);
+    }
+    virtual ~MainWindow() {}
 };
 
 #endif // MAINWINDOW_H

@@ -15,4 +15,13 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
-    mainWindow.h
+    controllerFile.h \
+    mainFile.h \
+    mainWindow.h \
+    moduleFile.h \
+    nestCliConfigFile.h \
+    packageJsonFile.h \
+    projectFile.h \
+    serviceFile.h \
+    tsConfigBuildFile.h \
+    tsConfigFile.h

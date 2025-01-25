@@ -1,3 +1,4 @@
+// ----- QT ELEMENTS -----
 #include <QApplication>
 #include <QObject>
 #include <QGridLayout>
@@ -7,11 +8,23 @@
 #include <QLabel>
 #include <QMessageBox>
 
+// ----- BUILT-IN LIBRARY -----
+
 #include <iostream>
 #include <fstream>
 #include <filesystem>
 
+// ----- PROJECT CLASSES -----
+
 #include <mainWindow.h>
+#include <packageJsonFile.h>
+#include <tsConfigFile.h>
+#include <tsConfigBuildFile.h>
+#include <nestCliConfigFile.h>
+#include <serviceFile.h>
+#include <controllerFile.h>
+#include <moduleFile.h>
+#include <mainFile.h>
 
 using namespace std;
 namespace fs = std::filesystem;
@@ -38,18 +51,14 @@ void onProjNameTxtEditorChange();
 
 // ---- FUNCTIONS -----
 
-string readFile(string path);
-void createFile(string path, string content);
-void createParentDirectoriesIfNotExist(string path);
-string setVariableInText(string varName, string varPattern, string varVal, string txt);
 QString strToQString(string str);
+void showMessageBox(QString text);
+void createPackageJsonFile();
 
 // ----- CONSTANTS -----
 
 const string fileInstancesDirPath = "../../../file_instances/";
 
-const string packageJsonInstanceFilePath = fileInstancesDirPath + "package.json.txt";
-const string tsConfInstanceFilePath = fileInstancesDirPath + "tsconfig.json.txt";
 const string tsConfBuildInstanceFilePath = fileInstancesDirPath + "tsconfig.build.json.txt";
 const string nestCliConfInstanceFilePath = fileInstancesDirPath + "nest-cli.json.txt";
 
@@ -143,64 +152,48 @@ int main(int argc, char *argv[])
 
 void onCreateProjBtnClick()
 {
-    QMessageBox msgBox;
-
     if (projName.length() < 1 || projRootDirName.length() < 1)
     {
-        msgBox.setText("All field is required");
-        msgBox.exec();
-
+        showMessageBox(strToQString("All field is required"));
         return;
-
     }
 
     try
     {
-        string packageJsonConfFileContent = readFile(packageJsonInstanceFilePath);
-        string tsConfFileContent = readFile(tsConfInstanceFilePath);
-        string tsConfBuildFileContent = readFile(tsConfBuildInstanceFilePath);
-        string nestCliConfFileContent = readFile(nestCliConfInstanceFilePath);
-
-        string serviceFileContent = readFile(serviceInstanceFilePath);
-        string controllerFileContent = readFile(controllerInstanceFilePath);
-        string moduleFileContent = readFile(moduleInstanceFilePath);
-
-        string mainFileContent = readFile(mainInstanceFilePath);
-
-        packageJsonConfFileContent = setVariableInText("projName", "{%v}", projName.toStdString(), packageJsonConfFileContent);
-        packageJsonConfFileContent = setVariableInText("rootDir", "{%v}", projRootDirName.toStdString(), packageJsonConfFileContent);
-        nestCliConfFileContent = setVariableInText("rootDir", "{%v}", projRootDirName.toStdString(), nestCliConfFileContent);
+        PackageJsonFile *jsonFile = new PackageJsonFile(projName.toStdString(), projRootDirName.toStdString());
+        TsConfigFile *tsConfigFile = new TsConfigFile();
+        TsConfigBuildFile *tsConfigBuildFile = new TsConfigBuildFile();
+        NestCliConfigFile *nestCliConfigFile = new NestCliConfigFile(projName.toStdString());
+        ServiceFile *serviceFile = new ServiceFile();
+        ControllerFile *controllerFile = new ControllerFile();
+        ModuleFile *moduleFile = new ModuleFile();
+        MainFile *mainFile = new MainFile();
 
         string projFolderPath = "../../../" + projName.toStdString() + "/";
         string projRootDirPath = projFolderPath + projRootDirName.toStdString() + "/";
 
+        string packageJsonConfFilePath = projFolderPath + "package.json";
+        string tsConfigFilePath = projFolderPath + "tsconfig.json";
+        string tsConfigBuildFilePath = projFolderPath + "tsconfig.build.json";
+        string nestCliConfigFilePath = projFolderPath + "nest-cli.json";
         string serviceFilePath = projRootDirPath + "app.service.ts";
         string controllerFilePath = projRootDirPath + "app.controller.ts";
         string moduleFilePath = projRootDirPath + "app.module.ts";
         string mainFilePath = projRootDirPath + "main.ts";
 
-        string packageJsonConfFilePath = projFolderPath + "package.json";
-        string tsConfFilePath = projFolderPath + "tsconfig.json";
-        string tsConfBuildFilePath = projFolderPath + "tsconfig.build.json";
-        string nestCliConfFilePath = projFolderPath + "nest-cli.json";
+        jsonFile->createFile(packageJsonConfFilePath);
+        tsConfigFile->createFile(tsConfigFilePath);
+        tsConfigBuildFile->createFile(tsConfigBuildFilePath);
+        nestCliConfigFile->createFile(nestCliConfigFilePath);
+        serviceFile->createFile(serviceFilePath);
+        controllerFile->createFile(controllerFilePath);
+        moduleFile->createFile(moduleFilePath);
+        mainFile->createFile(mainFilePath);
 
-        createFile(serviceFilePath, serviceFileContent);
-        createFile(controllerFilePath, controllerFileContent);
-        createFile(moduleFilePath, moduleFileContent);
-
-        createFile(mainFilePath, mainFileContent);
-
-        createFile(packageJsonConfFilePath, packageJsonConfFileContent);
-        createFile(tsConfFilePath, tsConfFileContent);
-        createFile(tsConfBuildFilePath, tsConfBuildFileContent);
-        createFile(nestCliConfFilePath, nestCliConfFileContent);
-
-        msgBox.setText(strToQString("Project " + projName.toStdString() + " is created"));
-        msgBox.exec();
+        showMessageBox(strToQString("Project " + projName.toStdString() + " is created"));
     } catch(exception &exception)
     {
-        msgBox.setText(QString("Something went wront: %1").arg(exception.what()));
-        msgBox.exec();
+        showMessageBox(QString("Something went wront: %1").arg(exception.what()));
     }
 }
 
@@ -214,64 +207,15 @@ void onProjNameTxtEditorChange()
     projName = projNameTxtEditor->toPlainText();
 }
 
-
-string readFile(string path)
-{
-    string fileContent;
-
-    string contentLine;
-
-    ifstream file(path);
-
-    if (file.is_open())
-    {
-        while(getline(file, contentLine))
-            fileContent += contentLine + '\n';
-    }
-
-    file.close();
-
-    return fileContent;
-}
-
-void createFile(string path, string content)
-{
-    createParentDirectoriesIfNotExist(path);
-
-    ofstream file;
-
-    file.open(path, ios::out);
-
-    if (file.is_open())
-        file << content;
-
-    file.close();
-}
-
-void createParentDirectoriesIfNotExist(string path)
-{
-    fs::path filePath(path);
-
-    if (!filePath.parent_path().empty())
-    {
-        fs::create_directories(filePath.parent_path());
-    }
-}
-
-string setVariableInText(string varName, string varPattern, string varVal, string txt)
-{
-    QString pattern = QString::fromStdString(varPattern);
-
-    pattern.replace(QString::fromStdString("%v"), QString::fromStdString(varName));
-
-    QString qTxt = QString::fromStdString(txt);
-
-    qTxt.replace(pattern, QString::fromStdString(varVal));
-
-    return qTxt.toStdString();
-}
-
 QString strToQString(string str)
 {
     return QString::fromStdString(str);
+}
+
+void showMessageBox(QString text)
+{
+    QMessageBox msgBox;
+
+    msgBox.setText(text);
+    msgBox.exec();
 }
