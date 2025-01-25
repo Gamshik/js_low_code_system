@@ -1,13 +1,13 @@
-#ifndef NESTCLICONFIGFILE_H
-#define NESTCLICONFIGFILE_H
+#ifndef NESTJSCLICONFIGFILE_H
+#define NESTJSCLICONFIGFILE_H
 
-#include <projectFile.h>
+#include <nestJsProjectFile.h>
 
 #include <iostream>
 
 using namespace std;
 
-class NestCliConfigFile : public ProjectFile
+class NestJsCliConfigFile : public NestJsProjectFile
 {
 private:
     const string ROOT_DIR_VARIABLE_PATTERN = "{rootDir}";
@@ -15,11 +15,11 @@ private:
     string _rootDir;
 
 public:
-    NestCliConfigFile(string rootDir): ProjectFile("nest-cli.json.txt")
-    {
-        _rootDir = rootDir;
-    }
-    virtual ~NestCliConfigFile() {}
+    NestJsCliConfigFile(string rootDir):
+        NestJsProjectFile("nest-cli.json.txt"),
+        _rootDir(rootDir)
+    {}
+    virtual ~NestJsCliConfigFile() {}
 
     void createFile(string path)
     {
@@ -31,4 +31,4 @@ public:
     }
 };
 
-#endif // NESTCLICONFIGFILE_H
+#endif // NESTJSCLICONFIGFILE_H

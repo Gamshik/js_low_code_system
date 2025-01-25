@@ -1,5 +1,5 @@
-#ifndef PROJECTFILE_H
-#define PROJECTFILE_H
+#ifndef NESTJSPROJECTFILE_H
+#define NESTJSPROJECTFILE_H
 
 #include <QString>
 
@@ -10,7 +10,7 @@
 using namespace std;
 namespace fs = std::filesystem;
 
-class ProjectFile
+class NestJsProjectFile
 {
 private:
     QString strToQString(string str)
@@ -74,8 +74,8 @@ protected:
     }
 
 public:
-    ProjectFile(const string &instanceFilePath): INSTANCE_FILE_PATH(INSTANCES_DIR_PATH + instanceFilePath) {}
-    virtual ~ProjectFile() {}
+    NestJsProjectFile(const string &instanceFilePath): INSTANCE_FILE_PATH(INSTANCES_DIR_PATH + instanceFilePath) {}
+    virtual ~NestJsProjectFile() {}
 
     virtual void createFile(string path)
     {
@@ -85,4 +85,4 @@ public:
     }
 };
 
-#endif // PROJECTFILE_H
+#endif // NESTJSPROJECTFILE_H

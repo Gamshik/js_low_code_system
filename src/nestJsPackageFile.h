@@ -1,13 +1,13 @@
-#ifndef PACKAGEJSONFILE_H
-#define PACKAGEJSONFILE_H
+#ifndef NESTJSPACKAGEFILE_H
+#define NESTJSPACKAGEFILE_H
 
-#include <projectFile.h>
+#include <nestJsProjectFile.h>
 
 #include <iostream>
 
 using namespace std;
 
-class PackageJsonFile : public ProjectFile
+class NestJsPackageFile : public NestJsProjectFile
 {
 private:
     const string PROJ_NAME_VARIABLE_PATTERN = "{projName}";
@@ -17,12 +17,12 @@ private:
     string _rootDir;
 
 public:
-    PackageJsonFile(string projName, string rootDir): ProjectFile("package.json.txt")
-    {
-        _projName = projName;
-        _rootDir = rootDir;
-    }
-    virtual ~PackageJsonFile() {}
+    NestJsPackageFile(string projName, string rootDir):
+        NestJsProjectFile("package.json.txt"),
+        _projName(projName),
+        _rootDir(rootDir)
+    {}
+    virtual ~NestJsPackageFile() {}
 
     void createFile(string path)
     {
@@ -35,4 +35,4 @@ public:
     }
 };
 
-#endif // PACKAGEJSONFILE_H
+#endif // NESTJSPACKAGEFILE_H
