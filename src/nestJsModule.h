@@ -4,6 +4,7 @@
 #include "nestJsServiceFile.h"
 #include "nestJsControllerFile.h"
 #include "nestJsModuleFile.h"
+#include "stringHelper.h"
 
 #include "iostream"
 
@@ -29,17 +30,18 @@ public:
         _projRootDirPath("")
     {}
     NestJsModule(string name, string projRootDirPath):
-        _serviceFile(new NestJsServiceFile()),
-        _controllerFile(new NestJsControllerFile()),
-        _moduleFile(new NestJsModuleFile()),
+        _serviceFile(new NestJsServiceFile(name)),
+        _controllerFile(new NestJsControllerFile(name, name)),
+        _moduleFile(new NestJsModuleFile(name)),
         _name(name),
         _projRootDirPath(projRootDirPath)
     {
-        string moduleDir = _projRootDirPath + "/modules/" + _name + "/";
+        string nameCamelCase = StringHelper::toLowerCaseFirstLetter(_name);
+        string moduleDir = _projRootDirPath + "/modules/" + nameCamelCase + "/";
 
-        _serviceFilePath = moduleDir + _name + ".service.ts";
-        _controllerFilePath = moduleDir + _name + ".controller.ts";
-        _moduleFilePath = moduleDir + _name + ".module.ts";
+        _serviceFilePath = moduleDir + nameCamelCase + ".service.ts";
+        _controllerFilePath = moduleDir + nameCamelCase + ".controller.ts";
+        _moduleFilePath = moduleDir + nameCamelCase + ".module.ts";
     }
     virtual ~NestJsModule()
     {
