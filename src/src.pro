@@ -22,6 +22,7 @@ HEADERS += \
     nestJsCliConfigFile.h \
     nestJsControllerFile.h \
     nestJsMainFile.h \
+    nestJsMainModuleFile.h \
     nestJsModule.h \
     nestJsModuleFile.h \
     nestJsPackageFile.h \
