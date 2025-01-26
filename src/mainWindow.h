@@ -1,9 +1,9 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <Qwidget>
-#include <QString>
-#include <QSize>
+#include "Qwidget"
+#include "QString"
+#include "QSize"
 
 class MainWindow : public QWidget
 {

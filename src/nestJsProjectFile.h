@@ -1,13 +1,13 @@
 #ifndef NESTJSPROJECTFILE_H
 #define NESTJSPROJECTFILE_H
 
-#include <QString>
+#include "QString"
 
-#include <iostream>
-#include <fstream>
-#include <filesystem>
+#include "iostream"
+#include "fstream"
+#include "filesystem"
 
-#include <fileSystemProvider.h>
+#include "fileSystemProvider.h"
 
 using namespace std;
 namespace fs = std::filesystem;

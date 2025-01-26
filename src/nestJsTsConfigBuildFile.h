@@ -1,9 +1,9 @@
 #ifndef NESTJSTSCONFIGBUILDFILE_H
 #define NESTJSTSCONFIGBUILDFILE_H
 
-#include <nestJsProjectFile.h>
+#include "nestJsProjectFile.h"
 
-#include <iostream>
+#include "iostream"
 
 using namespace std;
 

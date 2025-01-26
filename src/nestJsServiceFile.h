@@ -1,7 +1,7 @@
 #ifndef NESTJSSERVICEFILE_H
 #define NESTJSSERVICEFILE_H
 
-#include <nestJsProjectFile.h>
+#include "iostream"
 
 #include <iostream>
 

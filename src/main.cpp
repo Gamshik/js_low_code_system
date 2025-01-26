@@ -1,23 +1,23 @@
 // ----- QT ELEMENTS -----
-#include <QApplication>
-#include <QObject>
-#include <QGridLayout>
-#include <QTextEdit>
-#include <QPushButton>
-#include <QVBoxLayout>
-#include <QLabel>
-#include <QMessageBox>
+#include "QApplication"
+#include "QObject"
+#include "QGridLayout"
+#include "QTextEdit"
+#include "QPushButton"
+#include "QVBoxLayout"
+#include "QLabel"
+#include "QMessageBox"
 
 // ----- BUILT-IN LIBRARY -----
 
-#include <iostream>
-#include <fstream>
-#include <filesystem>
+#include "iostream"
+#include "fstream"
+#include "filesystem"
 
 // ----- PROJECT CLASSES -----
 
-#include <mainWindow.h>
-#include <nestJsProjectCreator.h>
+#include "mainWindow.h"
+#include "nestJsProjectCreator.h"
 
 using namespace std;
 namespace fs = std::filesystem;
