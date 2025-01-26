@@ -8,7 +8,8 @@ CONFIG += c++17 cmdline
 
 SOURCES += \
         fileSystemProvider.cpp \
-        main.cpp
+        main.cpp \
+        stringHelper.cpp
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -28,4 +29,5 @@ HEADERS += \
     nestJsProjectFile.h \
     nestJsServiceFile.h \
     nestJsTsConfigBuildFile.h \
-    nestJsTsConfigFile.h
+    nestJsTsConfigFile.h \
+    stringHelper.h

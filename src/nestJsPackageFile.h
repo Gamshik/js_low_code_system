@@ -5,6 +5,7 @@
 
 #include "nestJsProjectFile.h"
 #include "fileSystemProvider.h"
+#include "stringHelper.h"
 
 using namespace std;
 
@@ -29,8 +30,8 @@ public:
     {
         string fileContent = FileSystemProvider::readFile(INSTANCE_FILE_PATH);
 
-        fileContent = setVariableInText(PROJ_NAME_VARIABLE_PATTERN, _projName, fileContent);
-        fileContent = setVariableInText(ROOT_DIR_VARIABLE_PATTERN, _rootDir, fileContent);
+        fileContent = StringHelper::setVariableInText(PROJ_NAME_VARIABLE_PATTERN, _projName, fileContent);
+        fileContent = StringHelper::setVariableInText(ROOT_DIR_VARIABLE_PATTERN, _rootDir, fileContent);
 
         FileSystemProvider::createFile(path, fileContent);
     }
