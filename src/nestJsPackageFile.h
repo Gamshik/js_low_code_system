@@ -1,9 +1,10 @@
 #ifndef NESTJSPACKAGEFILE_H
 #define NESTJSPACKAGEFILE_H
 
-#include <nestJsProjectFile.h>
-
 #include <iostream>
+
+#include <nestJsProjectFile.h>
+#include <fileSystemProvider.h>
 
 using namespace std;
 
@@ -26,12 +27,12 @@ public:
 
     void createFile(string path)
     {
-        string fileContent = readFile(INSTANCE_FILE_PATH);
+        string fileContent = FileSystemProvider::readFile(INSTANCE_FILE_PATH);
 
         fileContent = setVariableInText(PROJ_NAME_VARIABLE_PATTERN, _projName, fileContent);
         fileContent = setVariableInText(ROOT_DIR_VARIABLE_PATTERN, _rootDir, fileContent);
 
-        createProjFile(path, fileContent);
+        FileSystemProvider::createFile(path, fileContent);
     }
 };
 
