@@ -2,7 +2,7 @@
 
 #include "fileSystemProvider.h"
 
-BOOL FileSystemProvider::Create_Directory_If_Not_Exist(char* path)
+BOOL FileSystemProvider::Create_Directory_If_Not_Exist(const char* path)
 {
     if (!CreateDirectoryA(path, NULL)) {
         DWORD err = GetLastError();
@@ -14,7 +14,7 @@ BOOL FileSystemProvider::Create_Directory_If_Not_Exist(char* path)
     return TRUE;
 }
 
-BOOL FileSystemProvider::Create_Directories_If_Not_Exist_Recursively(char* path)
+BOOL FileSystemProvider::Create_Directories_If_Not_Exist_Recursively(const char* path)
 {
     char temp[MAX_PATH];
     strcpy_s(temp, path);
@@ -40,25 +40,17 @@ BOOL FileSystemProvider::Create_Directories_If_Not_Exist_Recursively(char* path)
     return TRUE;
 }
 
-char* FileSystemProvider::Read_Instance_File(char* name)
+char* FileSystemProvider::Read_File(const char* path)
 {
-    size_t pathLegth = strlen(INSTANCE_FILES_DIR) + strlen(name) + 1;
-    char* full_path = (char*)malloc(pathLegth);
-
-    strcpy(full_path, INSTANCE_FILES_DIR);
-    strcat(full_path, name);
-
     HANDLE hFile = CreateFileA(
-        full_path, 
+        path, 
         GENERIC_READ,
         FILE_SHARE_READ,
         nullptr,
         OPEN_EXISTING,
-        FILE_ATTRIBUTE_READONLY,
+        FILE_ATTRIBUTE_NORMAL,
         NULL
     );
-
-    free(full_path);
 
     if (hFile == INVALID_HANDLE_VALUE)
         return nullptr;
@@ -99,7 +91,7 @@ char* FileSystemProvider::Read_Instance_File(char* name)
     return buffer;
 }
 
-BOOL FileSystemProvider::Create_File(char* path, char* content)
+BOOL FileSystemProvider::Create_File(const char* path, const char* content)
 {
     char temp_path[MAX_PATH];
     strcpy_s(temp_path, path);

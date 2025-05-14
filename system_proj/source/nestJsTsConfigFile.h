@@ -3,10 +3,6 @@
 
 #include "nestJsProjectFile.h"
 
-#include "iostream"
-
-using namespace std;
-
 class NestJsTsConfigFile : public NestJsProjectFile
 {
 public:

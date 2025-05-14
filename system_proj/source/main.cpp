@@ -14,6 +14,10 @@
 #pragma comment(lib, "dxguid.lib")
 #endif
 
+#include "nestJsProjectCreator.h"
+
+NestJsProjectCreator* nestJsProjectCreator;
+
 // Config for example app
 static const int APP_NUM_FRAMES_IN_FLIGHT = 2;
 static const int APP_NUM_BACK_BUFFERS = 2;
@@ -156,6 +160,13 @@ int main(int, char**)
     bool show_demo_window = true;
     bool show_another_window = false;
     ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
+
+    nestJsProjectCreator = new NestJsProjectCreator("D:\\LOW_CODE", "test", "src");
+
+    nestJsProjectCreator->addModule("Gleb");
+    nestJsProjectCreator->addModule("Test");
+
+    nestJsProjectCreator->createProject();
 
     // Main loop
     bool done = true;

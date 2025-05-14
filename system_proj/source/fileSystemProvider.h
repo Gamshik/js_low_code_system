@@ -6,15 +6,14 @@
 class FileSystemProvider
 {
 private:
-    inline static const char* INSTANCE_FILES_DIR = "file_instances";
-    static BOOL Create_Directory_If_Not_Exist(char* path);
-    static BOOL Create_Directories_If_Not_Exist_Recursively(char* path);
+    static BOOL Create_Directory_If_Not_Exist(const char* path);
+    static BOOL Create_Directories_If_Not_Exist_Recursively(const char* path);
 
 public:
     FileSystemProvider() = delete;
 
-    static char* Read_Instance_File(char* name);
-    static BOOL Create_File(char* path, char* content);
+    static char* Read_File(const char* name);
+    static BOOL Create_File(const char* path, const char* content);
 };
 
 #endif // FILESYSTEMPROVIDER_H

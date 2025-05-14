@@ -1,0 +1,11 @@
+import { Module } from '@nestjs/common';
+{importModules}
+
+@Module({
+  imports: [
+    {modulesList}
+  ],
+  controllers: [],
+  providers: [],
+})
+export class {moduleName}Module {}

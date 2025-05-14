@@ -9,6 +9,21 @@
     <ClInclude Include="imgui\imstb_truetype.h" />
     <ClInclude Include="imgui\backend\imgui_impl_dx12.h" />
     <ClInclude Include="imgui\backend\imgui_impl_win32.h" />
+    <ClInclude Include="source\fileSystemProvider.h" />
+    <ClInclude Include="source\nestJsCliConfigFile.h" />
+    <ClInclude Include="source\nestJsControllerFile.h" />
+    <ClInclude Include="source\nestJsMainFile.h" />
+    <ClInclude Include="source\nestJsMainModuleFile.h" />
+    <ClInclude Include="source\nestJsModule.h" />
+    <ClInclude Include="source\nestJsModuleFile.h" />
+    <ClInclude Include="source\nestJsPackageFile.h" />
+    <ClInclude Include="source\nestJsProjectCreator.h" />
+    <ClInclude Include="source\nestJsProjectFile.h" />
+    <ClInclude Include="source\nestJsServiceFile.h" />
+    <ClInclude Include="source\nestJsTsConfigBuildFile.h" />
+    <ClInclude Include="source\nestJsTsConfigFile.h" />
+    <ClInclude Include="source\main.h" />
+    <ClInclude Include="source\stringHelper.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="imgui\imgui.cpp" />
@@ -19,5 +34,20 @@
     <ClCompile Include="imgui\backend\imgui_impl_dx12.cpp" />
     <ClCompile Include="imgui\backend\imgui_impl_win32.cpp" />
     <ClCompile Include="source\main.cpp" />
+    <ClCompile Include="source\fileSystemProvider.cpp" />
+    <ClCompile Include="source\main copy.cpp" />
+    <ClCompile Include="source\stringHelper.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="x64\Debug\file_instances\controller.ts.txt" />
+    <Text Include="x64\Debug\file_instances\importModule.txt" />
+    <Text Include="x64\Debug\file_instances\main.ts.txt" />
+    <Text Include="x64\Debug\file_instances\mainModule.ts.txt" />
+    <Text Include="x64\Debug\file_instances\module.ts.txt" />
+    <Text Include="x64\Debug\file_instances\nest-cli.json.txt" />
+    <Text Include="x64\Debug\file_instances\package.json.txt" />
+    <Text Include="x64\Debug\file_instances\service.ts.txt" />
+    <Text Include="x64\Debug\file_instances\tsconfig.build.json.txt" />
+    <Text Include="x64\Debug\file_instances\tsconfig.json.txt" />
   </ItemGroup>
 </Project>

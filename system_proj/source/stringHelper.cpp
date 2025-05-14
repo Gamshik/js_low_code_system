@@ -1,12 +1,10 @@
+#define _CRT_SECURE_NO_WARNINGS
+
 #include "stringHelper.h"
 
 #include <iostream>
-#include <string.h>
 
-using namespace std;
-
-
-char* StringHelper::set_variable_in_text(char* pattern, char* value, char* text)
+char* StringHelper::Set_variable_in_text(const char* pattern, const char* value, const char* text)
 {
     char* result = new char[1];
     result[0] = '\0';
@@ -17,12 +15,12 @@ char* StringHelper::set_variable_in_text(char* pattern, char* value, char* text)
 
     int current_text_offset = 0, count_patterns = 0, i = 0;
 
-    for (char* symbol = text; *symbol; symbol++, i++) {
+    for (const char* symbol = text; *symbol; symbol++, i++) {
         if (*symbol == pattern[0]) {
             bool is_pattern = true;
             int start_pattern_index = i;
 
-            for (char* pattern_symbol = pattern; *pattern_symbol && is_pattern; pattern_symbol++, symbol++, i++) {
+            for (const char* pattern_symbol = pattern; *pattern_symbol && is_pattern; pattern_symbol++, symbol++, i++) {
                 if (*symbol != *pattern_symbol)
                     is_pattern = false;
                 if (*pattern_symbol == pattern[pattern_length - 1])
@@ -72,9 +70,36 @@ char* StringHelper::set_variable_in_text(char* pattern, char* value, char* text)
     return result;
 }
 
-char* StringHelper::to_lower_case_first_letter(char* word)
+char* StringHelper::To_lower_case_first_letter(const char* word)
 {
-    word[0] = std::tolower((unsigned char)word[0]);
+    if (!word || word[0] == '\0') {
+        char* result = (char*)malloc(1);
 
-    return word;
+        if (!result) return nullptr;
+        
+        result[0] = '\0';
+        
+        return result;
+    }
+
+    char* result = StringHelper::Duplicate_String(word);
+
+    if (!result) return nullptr;
+    
+    result[0] = std::tolower((unsigned char)result[0]);
+    
+    return result;
+}
+
+char* StringHelper::Duplicate_String(const char* src) 
+{
+    size_t src_size = strlen(src);
+
+    char* dest = (char*)malloc(src_size + 1);
+
+    if (!dest) return nullptr;
+
+    strcpy(dest, src);
+
+    return dest;
 }

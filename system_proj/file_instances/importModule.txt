@@ -1,0 +1,1 @@
+import { {moduleName}Module } from './modules/{moduleNameCamelCase}/{moduleNameCamelCase}.module';
